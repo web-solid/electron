@@ -4,6 +4,7 @@
 
 #include "shell/browser/api/atom_api_web_contents.h"
 
+#include <limits>
 #include <memory>
 #include <set>
 #include <string>
@@ -2304,7 +2305,12 @@ double WebContents::GetZoomLevel() const {
   return zoom_controller_->GetZoomLevel();
 }
 
-void WebContents::SetZoomFactor(double factor) {
+void WebContents::SetZoomFactor(mate::Arguments* args, double factor) {
+  if (factor < std::numeric_limits<double>::epsilon()) {
+    args->ThrowError("'zoomFactor' must be a double greater than 0.0");
+    return;
+  }
+
   auto level = content::ZoomFactorToZoomLevel(factor);
   SetZoomLevel(level);
 }
