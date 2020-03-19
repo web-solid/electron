@@ -1005,27 +1005,60 @@ describe('BrowserWindow module', () => {
           w.minimize()
         })
       })
+
       ifdescribe(process.platform === 'win32')(`Fullscreen state`, () => {
-        it(`checks normal bounds when fullscreen'ed`, (done) => {
-          const bounds = w.getBounds()
-          w.once('enter-full-screen', () => {
-            expectBoundsEqual(w.getNormalBounds(), bounds)
-            done()
+        describe('with properties', () => {
+          it(`checks normal bounds when fullscreen'ed`, (done) => {
+            const bounds = w.getBounds()
+            w.once('enter-full-screen', () => {
+              expectBoundsEqual(w.getNormalBounds(), bounds)
+              done()
+            })
+            w.show()
+            w.fullscreen = true
           })
-          w.show()
-          w.setFullScreen(true)
+
+          it(`checks normal bounds when unfullscreen'ed`, (done) => {
+            const bounds = w.getBounds()
+            w.once('enter-full-screen', () => {
+              expect(w.fullscreen).to.be.true()
+              w.fullscreen = false
+            })
+            w.once('leave-full-screen', () => {
+              expect(w.fullscreen).to.be.false()
+              expectBoundsEqual(w.getNormalBounds(), bounds)
+              done()
+            })
+            w.show()
+            w.fullscreen = true
+          })
         })
-        it(`checks normal bounds when unfullscreen'ed`, (done) => {
-          const bounds = w.getBounds()
-          w.once('enter-full-screen', () => {
-            w.setFullScreen(false)
+
+        describe('with functions', () => {
+          it(`checks normal bounds when fullscreen'ed`, (done) => {
+            const bounds = w.getBounds()
+            w.once('enter-full-screen', () => {
+              expectBoundsEqual(w.getNormalBounds(), bounds)
+              done()
+            })
+            w.show()
+            w.setFullScreen(true)
           })
-          w.once('leave-full-screen', () => {
-            expectBoundsEqual(w.getNormalBounds(), bounds)
-            done()
+
+          it(`checks normal bounds when unfullscreen'ed`, (done) => {
+            const bounds = w.getBounds()
+            w.once('enter-full-screen', () => {
+              expect(w.isFullScreen()).to.be.true()
+              w.setFullScreen(false)
+            })
+            w.once('leave-full-screen', () => {
+              expect(w.isFullScreen()).to.be.false()
+              expectBoundsEqual(w.getNormalBounds(), bounds)
+              done()
+            })
+            w.show()
+            w.setFullScreen(true)
           })
-          w.show()
-          w.setFullScreen(true)
         })
       })
     })
