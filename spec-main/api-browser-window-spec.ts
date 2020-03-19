@@ -3398,7 +3398,7 @@ describe('BrowserWindow module', () => {
     afterEach(closeAllWindows)
 
     describe('movable state', () => {
-      it('with properties', () => {
+      describe('with properties', () => {
         it('can be set with movable constructor option', () => {
           const w = new BrowserWindow({ show: false, movable: false })
           expect(w.movable).to.be.false('movable')
@@ -3414,7 +3414,7 @@ describe('BrowserWindow module', () => {
         })
       })
 
-      it('with functions', () => {
+      describe('with functions', () => {
         it('can be set with movable constructor option', () => {
           const w = new BrowserWindow({ show: false, movable: false })
           expect(w.isMovable()).to.be.false('movable')
@@ -3431,8 +3431,38 @@ describe('BrowserWindow module', () => {
       })
     })
 
+    describe('native window title', () => {
+      describe('with properties', () => {
+        it('can be set with title constructor option', () => {
+          const w = new BrowserWindow({ show: false, title: 'mYtItLe' })
+          expect(w.title).to.eql('mYtItLe')
+        })
+
+        it('can be changed', () => {
+          const w = new BrowserWindow({ show: false })
+          expect(w.title).to.eql('Electron Test Main')
+          w.title = 'NEW TITLE'
+          expect(w.title).to.eql('NEW TITLE')
+        })
+      })
+
+      describe('with functions', () => {
+        it('can be set with minimizable constructor option', () => {
+          const w = new BrowserWindow({ show: false, title: 'mYtItLe' })
+          expect(w.getTitle()).to.eql('mYtItLe')
+        })
+
+        it('can be changed', () => {
+          const w = new BrowserWindow({ show: false })
+          expect(w.getTitle()).to.eql('Electron Test Main')
+          w.setTitle('NEW TITLE')
+          expect(w.getTitle()).to.eql('NEW TITLE')
+        })
+      })
+    })
+
     describe('minimizable state', () => {
-      it('with properties', () => {
+      describe('with properties', () => {
         it('can be set with minimizable constructor option', () => {
           const w = new BrowserWindow({ show: false, minimizable: false })
           expect(w.minimizable).to.be.false('minimizable')
@@ -3448,7 +3478,7 @@ describe('BrowserWindow module', () => {
         })
       })
 
-      it('with functions', () => {
+      describe('with functions', () => {
         it('can be set with minimizable constructor option', () => {
           const w = new BrowserWindow({ show: false, minimizable: false })
           expect(w.isMinimizable()).to.be.false('movable')
@@ -3466,7 +3496,7 @@ describe('BrowserWindow module', () => {
     })
 
     describe('maximizable state (property)', () => {
-      it('with properties', () => {
+      describe('with properties', () => {
         it('can be set with maximizable constructor option', () => {
           const w = new BrowserWindow({ show: false, maximizable: false })
           expect(w.maximizable).to.be.false('maximizable')
@@ -3499,7 +3529,7 @@ describe('BrowserWindow module', () => {
         })
       })
 
-      it('with functions', () => {
+      describe('with functions', () => {
         it('can be set with maximizable constructor option', () => {
           const w = new BrowserWindow({ show: false, maximizable: false })
           expect(w.isMaximizable()).to.be.false('isMaximizable')
@@ -3534,7 +3564,7 @@ describe('BrowserWindow module', () => {
     })
 
     ifdescribe(process.platform === 'win32')('maximizable state', () => {
-      it('with properties', () => {
+      describe('with properties', () => {
         it('is reset to its former state', () => {
           const w = new BrowserWindow({ show: false })
           w.maximizable = false
@@ -3548,7 +3578,7 @@ describe('BrowserWindow module', () => {
         })
       })
 
-      it('with functions', () => {
+      describe('with functions', () => {
         it('is reset to its former state', () => {
           const w = new BrowserWindow({ show: false })
           w.setMaximizable(false)
@@ -3564,7 +3594,7 @@ describe('BrowserWindow module', () => {
     })
 
     ifdescribe(process.platform === 'darwin')('fullscreenable state', () => {
-      it('with properties', () => {
+      describe('with properties', () => {
         it('can be set with fullscreenable constructor option', () => {
           const w = new BrowserWindow({ show: false, fullscreenable: false })
           expect(w.fullScreenable).to.be.false('fullScreenable')
@@ -3580,7 +3610,7 @@ describe('BrowserWindow module', () => {
         })
       })
 
-      it('with functions', () => {
+      describe('with functions', () => {
         it('can be set with fullscreenable constructor option', () => {
           const w = new BrowserWindow({ show: false, fullscreenable: false })
           expect(w.isFullScreenable()).to.be.false('isFullScreenable')
