@@ -3724,18 +3724,46 @@ describe('BrowserWindow module', () => {
     const tick = () => new Promise(resolve => setTimeout(resolve))
 
     ifdescribe(process.platform === 'darwin')('kiosk state', () => {
-      it('can be changed with setKiosk method', (done) => {
-        const w = new BrowserWindow()
-        w.once('enter-full-screen', async () => {
-          await tick()
-          w.setKiosk(false)
-          expect(w.isKiosk()).to.be.false('isKiosk')
+      describe('with properties', () => {
+        it('can be set with a constructor property', () => {
+          const w = new BrowserWindow({ kiosk: true })
+          expect(w.kiosk).to.be.true()
         })
-        w.once('leave-full-screen', () => {
-          done()
+
+        it('can be changed ', (done) => {
+          const w = new BrowserWindow()
+          w.once('enter-full-screen', async () => {
+            await tick()
+            w.kiosk = false
+            expect(w.kiosk).to.be.false()
+          })
+          w.once('leave-full-screen', () => {
+            done()
+          })
+          w.kiosk = true
+          expect(w.kiosk).to.be.true()
         })
-        w.setKiosk(true)
-        expect(w.isKiosk()).to.be.true('isKiosk')
+      })
+
+      describe('with functions', () => {
+        it('can be set with a constructor property', () => {
+          const w = new BrowserWindow({ kiosk: true })
+          expect(w.isKiosk()).to.be.true()
+        })
+
+        it('can be changed ', (done) => {
+          const w = new BrowserWindow()
+          w.once('enter-full-screen', async () => {
+            await tick()
+            w.setKiosk(false)
+            expect(w.isKiosk()).to.be.false('isKiosk')
+          })
+          w.once('leave-full-screen', () => {
+            done()
+          })
+          w.setKiosk(true)
+          expect(w.isKiosk()).to.be.true('isKiosk')
+        })
       })
     })
 
